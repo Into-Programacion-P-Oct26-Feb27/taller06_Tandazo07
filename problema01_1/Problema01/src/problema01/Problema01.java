@@ -20,99 +20,101 @@ public class Problema01 {
         Scanner entrada = new Scanner(System.in);
         entrada.useLocale(Locale.US);
         // TODO code application logic here
-
-        int op;
+    
+     int op;
         int valor1;
         int valor2;
         double resultado = 0;
-        String nombre = "";
-        boolean calculado = false;
-
+ 
+        String tipo = "";
+        String mensaje = "";
+ 
         System.out.println("Ingrese el primer valor de la operación");
         valor1 = entrada.nextInt();
         System.out.println("Ingrese el segundo valor de la operación");
         valor2 = entrada.nextInt();
-
+ 
         System.out.println("Seleccione la operación que desea realizar\n"
                 + "Ingrese 1 para sumar\n"
                 + "Ingrese 2 para restar\n"
                 + "Ingrese 3 para multiplicar\n"
                 + "Ingrese 4 para dividir\n"
-                + "Ingrese 5 para calcular el módulo\n"
-                + "Ingrese 6 para calcular la potencia");
+                + "Ingrese 5 para obtener el módulo\n"
+                + "Ingrese 6 para potencia");
         op = entrada.nextInt();
         System.out.println();
-
-        if (valor1 > valor2) {
-
-            if (op == 1) {
-                nombre = "Suma";
-                resultado = valor1 + valor2;
-                calculado = true;
-            } else {
-
-                if (op == 2) {
-                    nombre = "Resta";
-                    resultado = valor1 - valor2;
-                    calculado = true;
-                } else {
-
-                    if (op == 3) {
-                        nombre = "Multiplicación";
+ 
+        // compare devuelve 1 cuando valor1 es mayor que valor2
+        switch (Integer.compare(valor1, valor2)) {
+            case 1:
+                switch (op) {
+                    case 1:
+                        tipo = "Suma";
+                        resultado = valor1 + valor2;
+                        break;
+                    case 2:
+                        tipo = "Resta";
+                        resultado = valor1 - valor2;
+                        break;
+                    case 3:
+                        tipo = "Multiplicación";
                         resultado = valor1 * valor2;
-                        calculado = true;
-                    } else {
-
-                        if (op == 4) {
-                            if (valor2 != 0) {
-                                nombre = "División";
-                                resultado = (double) valor1 / valor2;
-                                calculado = true;
-                            } else {
-                                System.out.println("No es posible dividir: el"
-                                        + " segundo número no puede ser cero.");
-                            }
-                        } else {
-
-                            if (op == 5) {
-                                if (valor2 != 0) {
-                                    nombre = "Módulo";
-                                    resultado = valor1 % valor2;
-                                    calculado = true;
-                                } else {
-                                    System.out.println("No es posible calcular"
-                                            + " el módulo: el segundo número "
-                                            + "no puede ser cero.");
-                                }
-                            } else {
-
-                                if (op == 6) {
-                                    nombre = "Potencia";
-                                    resultado = Math.pow(valor1, valor2);
-                                    calculado = true;
-                                } else {
-                                    System.out.println("La opción seleccionada"
-                                            + " no es válida.");
-                                }
-                            }
+                        break;
+                    case 4:
+                        tipo = "División";
+                        switch (valor2) {
+                            case 0:
+                                mensaje = "No es posible realizar la operación: el segundo número no puede ser cero.";
+                                break;
+                            default:
+                                resultado = valor1 / valor2;
                         }
-                    }
+                        break;
+                    case 5:
+                        tipo = "Módulo";
+                        switch (valor2) {
+                            case 0:
+                                mensaje = "No es posible realizar la operación: el segundo número no puede ser cero.";
+                                break;
+                            default:
+                                resultado = valor1 % valor2;
+                        }
+                        break;
+                    case 6:
+                        tipo = "Potencia";
+                        resultado = (int) Math.pow(valor1, valor2);
+                        break;
+                    default:
+                        mensaje = "La opción no es válida.";
                 }
-            }
-
-        } else {
-            System.out.println("No es posible realizar la operación: el"
-                    + " primer número debe ser mayor que el segundo.");
+                break;
+            default:
+                // valor1 no es mayor que valor2
+                switch (op) {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                        mensaje = "No es posible realizar la operación: el primer número debe ser mayor que el segundo.";
+                        break;
+                    default:
+                        mensaje = "La opción no es válida.";
+                }
         }
-
-        if (calculado) {
-            System.out.println("OPERACIONES ARITMÉTICAS");
-            System.out.println();
-            System.out.printf("Primer número: %d\n", valor1);
-            System.out.printf("Segundo número: %d\n", valor2);
-            System.out.printf("Operación seleccionada: %s\n", nombre);
-            System.out.println();
-            System.out.println("Resultado: " + resultado);
+ 
+        switch (mensaje) {
+            case "":
+                System.out.printf("OPERACIONES ARITMÉTICAS\n\n"
+                        + "Primer número: %d\n"
+                        + "Segundo número: %d\n"
+                        + "Operación seleccionada: %s\n\n"
+                        + "Resultado: %s\n",
+                        valor1, valor2, tipo, resultado);
+                break;
+            default:
+                System.out.println(mensaje);
         }
     }
 }
